@@ -9,6 +9,8 @@ When searching by query, the query is also translated into the vector space of d
 
 The system works with Russian, but English language processing is also possible.
 
+The algorithm operation is described in detail in the [`search_sys.ipynb`](https://github.com/vsha96/search_system/blob/main/search_sys.ipynb) (RU)
+
 ## Installation
 - clone this repo  
 `git clone git@github.com:vsha96/search_system.git`

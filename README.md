@@ -1,37 +1,41 @@
-## Описание
-В данном отчете подробно разобраны шаги для создания примитивной поисковой системы, использующей в своей основе векторное представление документов, где значения рассчитываются через tf_idf (двумя способами подсчета tf: count и log(1+count))  
+# Search engine
 
-Здесь документы - это предложения из коллекции текстов  
-Тексты взяты из прикрепленных ссылок к интересным фактам Википедии  
-Запросы - сами формулировку этих фактов (можно увидеть в частях **Запросы** и **Поиск по запросу**)  
+This search engine is based on a vector representation of documents, where values are calculated via **tf_idf** (two ways of counting tf: **count** and **log(1+count)**)
 
-При поиске по запросу, сам запрос тоже переводится в векторное пространство документов, и система выдает релевантные документы по мере их близости (близость считается как cos между векторами)  
+Documents are sentences from a collection of texts.  
+The texts in the [`/text`](https://github.com/vsha96/search_system/tree/main/text) are taken from links to interesting Wikipedia facts.
 
-## Подключение модуля
-```import mysearchsys as mss```
+When searching by query, the query is also translated into the vector space of documents, and the system outputs relevant documents as they are close (proximity is considered as the cosine of the angle between vectors)
 
-## Процедуры и функции
-Процедура сборки коллекции, если добавили файлы в text  
-```mss.make_collection()```  
+The system works with Russian, but English language processing is also possible.
 
-Функция поиска по коллекции, выдает кортеж:  
-1) список близких документов по мере tf-idf (tf = count)  
-2) список по мере tf-idf (tf = log(1+count))  
-Пример: ```mss.search('На складе чугуноплавильного завода скопился годовой запас продукции')```  
-
-Пример, как различать разные подсчеты tf: 
+## Installation
+- clone this repo  
+`git clone git@github.com:vsha96/search_system.git`
+- import the module
 ```
-# список релевантных документов для запроса
-#   если первая индексация [0], тогда tf = count
-#   если первая индексация [1], тогда tf = log(1+count)
-search_list = mss.search('Внешность короля Генриха III')[0][:3]
-
-print(search_list)
+import mysearchsys as mss
 ```
-  
-  
-## Некоторые ключевые моменты и удобные возможности
-- Даты, римские цифры, английские названия - тоже термы (это может играть роль при поиске документа)  
-- Есть возможность сохранять или пересобирать коллекцию с помощью make_collection()  
-- Автоматическое добавление новых текстов в коллекцию (нужно записывать новые факты в виде fact_*\<number>*.txt в директорию text и перезапустить сборку коллекции)  
-- Обработанная коллекция сохраняется и подгружается как объект pickle (в директории obj)  
+
+
+
+## Usage
+
+- The procedure for building a collection from files in [`/text`](https://github.com/vsha96/search_system/tree/main/text)  
+`mss.make_collection()`
+- Collection search function, returns a tuple:  
+  **(** *list of docs when tf = count* **,** *list of docs when tf = log(1+count)* **)**  
+`mss.search('your query')`
+
+See examples in the [`main.py`](https://github.com/vsha96/search_system/blob/main/main.py)
+
+
+
+## Features
+- Dates, Roman numerals, English names are also terms (this may play a role when searching for a document)
+- It is possible to save or reassemble a collection using `make_collection()`
+- Automatic addition of new texts to the collection (you need to add new facts as `fact_<number>.txt` to the [`/text`](https://github.com/vsha96/search_system/tree/main/text) directory and restart the collection assembly using `make_collection()`)
+- The processed collection is saved and loaded as a pickle object (in the [`/obj`](https://github.com/vsha96/search_system/tree/main/obj) directory)
+
+
+
